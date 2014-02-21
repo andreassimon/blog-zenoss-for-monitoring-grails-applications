@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+  </head>
+<body>
+This week I spent setting up a simple monitored set of virtualized Grails application servers. As my monitoring service I chose [Zenoss](http://zenoss.org).
+## Multi-Machine Setup with Vagrant
+
+In order to simulate a production-like private network I created a [multi-machine configuration](http://docs.vagrantup.com/v2/multi-machine/index.html) for Vagrant comprising 3 machines:
+
+  - `10.0.0.2` is the installation target for the Zenoss server
+  - `10.0.0.3` and `10.0.0.4` are the two to-be-monitored application servers, each configured as a [blue/green deployable](http://andreas-simon.blogspot.de/2014/02/zero-downtime-deployment-for-grails.html) Tomcat for hosting Grails applications
+
+<img src="https://lh6.googleusercontent.com/-sooXmQO9bnY/UwXshUYLAOI/AAAAAAAAAqc/kGaItAwnNx0/w354-h304-no/zenoss-monitoring.png" />
+
+<div class="code_block">
+<div class="code_header">Vagrantfile</div>
+<%= `cat Vagrantfile | ./extract_region.rb multi-machine-setup | pygmentize -l ruby -f html` %>
+</div>
+## Installing the Zenoss server
+
+All the machines are provisioned with Chef.
+## Installing the Application Servers
+
+SNMP daemon
+
+http://docs.vagrantup.com/v2/multi-machine/index.html
+http://docs.vagrantup.com/v2/networking/private_network.html
+
+tunneling to the Zenoss Web UI
+
+Adding a device (client)
+
+    modelling
+    monitoring
+
+http://wiki.zenoss.org/Add_a_Device http://wiki.zenoss.org/Prepare_Remote_Device
+</body>
+</html>
