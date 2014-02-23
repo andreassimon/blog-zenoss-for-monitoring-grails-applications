@@ -136,7 +136,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.add_recipe "grails"
         chef.add_recipe "snmp"
 
-        # You may also specify custom JSON attributes:
         chef.json = {
           domain: "localhost",
           java: {
