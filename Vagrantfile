@@ -110,7 +110,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.data_bags_path = "./data_bags"
         chef.roles_path     = "./roles"
         chef.add_recipe "apt"
-        chef.add_role   "grails"
+        chef.add_role   "grails_blue_green"
         chef.add_role   "monitored"
 
         chef.json = {
