@@ -37,6 +37,11 @@ All the machines are provisioned with Chef.
 <div class="code_header">Vagrantfile</div>
 <%= `cat Vagrantfile | ./extract_region.rb provisioning-grails | grep --invert-match "region" | pygmentize -l ruby -f html` %>
 </div>
+
+<div class="code_block">
+<div class="code_header">roles/monitored.rb</div>
+<%= `cat roles/monitored.rb | pygmentize -l ruby -f html` %>
+</div>
 SNMP daemon
 
 http://docs.vagrantup.com/v2/networking/private_network.html

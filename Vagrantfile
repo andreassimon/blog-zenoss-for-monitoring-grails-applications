@@ -75,30 +75,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.cookbooks_path = "./cookbooks"
       chef.data_bags_path = "./data_bags"
       chef.roles_path     = "./roles"
-      chef.add_role   "zenoss_server"
-      chef.add_recipe "snmp"
+      chef.add_role "zenoss_server"
+      chef.add_role "monitored"
 
       chef.json = {
-        domain: "localhost",
-        zenoss: {
-          server: {
-            admin_password: 'zenoss'
-          },
-          core4: {
-            rpm_url: "http://downloads.sourceforge.net/project/zenoss/zenoss-4.2/zenoss-4.2.4/4.2.4-1897/zenoss_core-4.2.4-1897.el6.x86_64.rpm?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fzenoss%2Ffiles%2Fzenoss-4.2%2Fzenoss-4.2.4%2F4.2.4-1897%2F&ts=1392587207&use_mirror=skylink"
-          }
-        },
-        java: {
-          install_flavor: "oracle",
-          jdk_version: "7",
-          oracle: {
-            accept_oracle_download_terms: true
-          }
-        },
-        snmp: {
-          full_systemview: true,
-          include_all_disks: true
-        }
+        domain: "localhost"
       }
     end
 # region multi-machine-setup
@@ -129,55 +110,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         chef.data_bags_path = "./data_bags"
         chef.roles_path     = "./roles"
         chef.add_recipe "apt"
-        chef.add_recipe "haproxy"
-        chef.add_recipe "tomcat-blue-green"
-        chef.add_recipe "tomcat-blue-green::users"
-        chef.add_recipe "haproxy-blue-green"
-        chef.add_recipe "grails"
-        chef.add_recipe "snmp"
+        chef.add_role   "grails"
+        chef.add_role   "monitored"
 
         chef.json = {
           domain: "localhost",
-          java: {
-            install_flavor: "oracle",
-            jdk_version: "7",
-            oracle: {
-              accept_oracle_download_terms: true
-            }
-          },
-          tomcat: {
-            keystore_password: 'keystore_password',
-            truststore_password: 'truststore_password',
-            blue_server_port: 8005,
-            blue_http_port: 8080,
-            blue_https_port: 8080,
-            green_server_port: 8006,
-            green_http_port: 8081,
-            green_https_port: 8081,
-            java_options: "-server -Xmx512M -XX:MaxPermSize=348M -Djava.awt.headless=true"
-          },
-          haproxy: {
-            members: [
-              {
-                "hostname" => "localhost",
-                "ipaddress" => "127.0.0.1",
-                "port" => 8080,
-                "ssl_port" => 8080
-              }, {
-                "hostname" => "localhost",
-                "ipaddress" => "127.0.0.1",
-                "port" => 8081,
-                "ssl_port" => 8081
-              }
-            ]
-          },
-          snmp: {
-            snmpd: {
-              snmpd_opts: '-Lsd -Lf /dev/null -u snmp -g snmp -I -smux -p /var/run/snmpd.pid'
-            },
-            full_systemview: true,
-            include_all_disks: true
-          }
         }
       end
 # region multi-machine-setup
