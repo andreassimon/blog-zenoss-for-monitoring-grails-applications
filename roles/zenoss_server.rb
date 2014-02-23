@@ -1,4 +1,4 @@
-name "ZenossServer"
+name "zenoss_server"
 description "Role to use as basis for configuring Zenoss Server"
 #a number of server attributes are available for customization
 #you may want to set the [:zenoss][:server][:admin_password]

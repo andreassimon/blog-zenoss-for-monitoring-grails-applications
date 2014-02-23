@@ -6,7 +6,9 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# region provisioning-zenoss
   config.vm.define "zenoss" do |zenoss_server|
+# endregion provisioning-zenoss    # ...
 # endregion multi-machine-setup
     # All Vagrant configuration is done here. The most common configuration
     # options are documented and commented below. For a complete reference,
@@ -68,14 +70,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Enable provisioning with chef solo, specifying a cookbooks path, roles
     # path, and data_bags path (all relative to this Vagrantfile), and adding
     # some recipes and/or roles.
+# region provisioning-zenoss
     zenoss_server.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "./cookbooks"
+      chef.data_bags_path = "./data_bags"
       chef.roles_path     = "./roles"
-      # chef.data_bags_path = "./data_bags"
-      chef.add_role "ZenossServer"
+      chef.add_role   "zenoss_server"
       chef.add_recipe "snmp"
 
-      # You may also specify custom JSON attributes:
       chef.json = {
         domain: "localhost",
         zenoss: {
@@ -101,9 +103,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 # region multi-machine-setup
   end
+# endregion provisioning-zenoss
 
+# region provisioning-grails
   (1..2).each do |idx|
     config.vm.define "grails#{idx}" do |grails_web|
+# endregion provisioning-grails      # ...
       grails_web.vm.box = "squeezy"
       grails_web.vm.box_url = "https://dl.dropboxusercontent.com/u/17905319/vagrant-boxes/squeezy.box"
 
@@ -118,10 +123,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       end
 
+# region provisioning-grails
       grails_web.vm.provision :chef_solo do |chef|
         chef.cookbooks_path = "./cookbooks"
-        # chef.roles_path     = "./roles"
         chef.data_bags_path = "./data_bags"
+        chef.roles_path     = "./roles"
         chef.add_recipe "apt"
         chef.add_recipe "haproxy"
         chef.add_recipe "tomcat-blue-green"
@@ -167,6 +173,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             ]
           },
           snmp: {
+            snmpd: {
+              snmpd_opts: '-Lsd -Lf /dev/null -u snmp -g snmp -I -smux -p /var/run/snmpd.pid'
+            },
             full_systemview: true,
             include_all_disks: true
           }
@@ -175,5 +184,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 # region multi-machine-setup
     end
   end
+# endregion provisioning-grails
 end
 # endregion multi-machine-setup

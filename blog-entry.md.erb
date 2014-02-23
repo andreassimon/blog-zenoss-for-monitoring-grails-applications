@@ -11,28 +11,42 @@ In order to simulate a production-like private network I created a [multi-machin
   - `10.0.0.2` is the installation target for the Zenoss server
   - `10.0.0.3` and `10.0.0.4` are the two to-be-monitored application servers, each configured as a [blue/green deployable](http://andreas-simon.blogspot.de/2014/02/zero-downtime-deployment-for-grails.html) Tomcat for hosting Grails applications
 
-<img src="https://lh6.googleusercontent.com/-sooXmQO9bnY/UwXshUYLAOI/AAAAAAAAAqc/kGaItAwnNx0/w354-h304-no/zenoss-monitoring.png" />
+<img src="https://raw2.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/zenoss-monitoring.png" />
 
 <div class="code_block">
 <div class="code_header">Vagrantfile</div>
-<%= `cat Vagrantfile | ./extract_region.rb multi-machine-setup | pygmentize -l ruby -f html` %>
+<%= `cat Vagrantfile | ./extract_region.rb multi-machine-setup | grep --invert-match "region" | pygmentize -l ruby -f html` %>
 </div>
+
 ## Installing the Zenoss server
 
 All the machines are provisioned with Chef.
-## Installing the Application Servers
+<div class="code_block">
+<div class="code_header">Vagrantfile</div>
+<%= `cat Vagrantfile | ./extract_region.rb provisioning-zenoss | grep --invert-match "region" | pygmentize -l ruby -f html` %>
+</div>
 
+<div class="code_block">
+<div class="code_header">roles/zenoss_server.rb</div>
+<%= `cat roles/zenoss_server.rb | pygmentize -l ruby -f html` %>
+</div>
+
+## Installing the Application Servers
+<div class="code_block">
+<div class="code_header">Vagrantfile</div>
+<%= `cat Vagrantfile | ./extract_region.rb provisioning-grails | grep --invert-match "region" | pygmentize -l ruby -f html` %>
+</div>
 SNMP daemon
 
-http://docs.vagrantup.com/v2/multi-machine/index.html
 http://docs.vagrantup.com/v2/networking/private_network.html
 
 tunneling to the Zenoss Web UI
 
-Adding a device (client)
+## Adding a device (client)
 
-    modelling
-    monitoring
+modelling
+
+monitoring
 
 http://wiki.zenoss.org/Add_a_Device http://wiki.zenoss.org/Prepare_Remote_Device
 </body>
