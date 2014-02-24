@@ -1,17 +1,18 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    apt (1.4.8)
-    build-essential (1.1.2)
+    apt (2.3.8)
+    build-essential (1.4.2)
     cpu (0.2.0)
-    erlang (1.2.0)
+    erlang (1.3.6)
+      apt (>= 1.7.0)
       build-essential (>= 0.0.0)
-      yum (>= 0.5.0)
+      yum (< 3.0.0)
     iptables (0.12.0)
     java (1.19.2)
-    mysql (3.0.4)
-      build-essential (> 1.1.0)
-      openssl (>= 0.0.0)
+    mysql (4.0.20)
+      build-essential (~> 1.4)
+      openssl (~> 1.1)
     openssh (1.3.2)
       iptables (>= 0.0.0)
     openssl (1.1.0)
@@ -23,9 +24,6 @@ SITE
     selinux (0.6.2)
     snmp (1.1.0)
       perl (>= 0.0.0)
-    tomcat (0.15.4)
-      java (>= 0.0.0)
-      openssl (>= 0.0.0)
     ulimit (0.3.2)
     yum (2.4.4)
     zenoss (2.0.0)
@@ -44,10 +42,9 @@ SITE
 GIT
   remote: https://github.com/andreassimon/cookbook-grails.git
   ref: master
-  sha: 18696bc6d4942cb4ee71e45def8730b8d28f3fe2
+  sha: 74d5814a76ab2779d695cb2f3f503930f9d941c6
   specs:
     grails (0.1.0)
-      tomcat (>= 0.0.0)
 
 GIT
   remote: https://github.com/andreassimon/cookbook-haproxy-blue-green.git
@@ -76,12 +73,12 @@ GIT
       cpu (>= 0.2.0)
 
 DEPENDENCIES
-  apt (= 1.4.8)
-  build-essential (= 1.1.2)
+  apt (>= 0)
+  build-essential (>= 0)
   grails (>= 0)
   haproxy (>= 0)
   haproxy-blue-green (>= 0)
-  snmp (~> 1.1.0)
+  snmp (>= 0)
   tomcat-blue-green (>= 0)
   yum (~> 2.4.0)
   zenoss (= 2.0.0)

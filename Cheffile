@@ -6,8 +6,8 @@ cookbook "zenoss", "2.0.0"
 cookbook "zenoss_client", "~>1.0"
 
 # Zero-downtime Grails
-cookbook "apt", "1.4.8"
-cookbook "build-essential", "1.1.2"
+cookbook "apt"
+cookbook "build-essential"
 cookbook "haproxy",
   :git => "https://github.com/hw-cookbooks/haproxy.git",
   :ref => "d03f269"
@@ -17,4 +17,4 @@ cookbook "haproxy-blue-green",
   :git => "https://github.com/andreassimon/cookbook-haproxy-blue-green.git"
 cookbook "grails",
   :git => "https://github.com/andreassimon/cookbook-grails.git"
-cookbook "snmp", "~>1.1.0"
+cookbook "snmp"
