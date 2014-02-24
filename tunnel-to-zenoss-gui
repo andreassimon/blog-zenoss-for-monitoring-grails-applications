@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# region tunnel-to-zenoss
+ssh -p 2222 -o "UserKnownHostsFile /dev/null" -o "StrictHostKeyChecking no" -N -L 8080:127.0.0.1:8080 root@localhost
+# Password is `vagrant'

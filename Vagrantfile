@@ -72,11 +72,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # some recipes and/or roles.
 # region provisioning-zenoss
     zenoss_server.vm.provision :chef_solo do |chef|
+# endregion provisioning-zenoss      # ...
       chef.cookbooks_path = "./cookbooks"
       chef.data_bags_path = "./data_bags"
       chef.roles_path     = "./roles"
+# region provisioning-zenoss
       chef.add_role "zenoss_server"
+# endregion provisioning-zenoss      # ...
       chef.add_role "monitored"
+# region provisioning-zenoss
 
       chef.json = {
         domain: "localhost"
@@ -95,7 +99,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       grails_web.vm.network :private_network, ip: "10.0.0.#{2 + idx}"
 # endregion multi-machine-setup      # ...
-      # grails_web.vm.network :forwarded_port, guest: 80, host: 8081
 
       grails_web.vm.provider :virtualbox do |vb|
         vb.memory = 1024
@@ -106,11 +109,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 # region provisioning-grails
       grails_web.vm.provision :chef_solo do |chef|
+# endregion provisioning-grails        # ...
         chef.cookbooks_path = "./cookbooks"
         chef.data_bags_path = "./data_bags"
         chef.roles_path     = "./roles"
         chef.add_recipe "apt"
         chef.add_role   "grails_blue_green"
+# region provisioning-grails
         chef.add_role   "monitored"
 
         chef.json = {

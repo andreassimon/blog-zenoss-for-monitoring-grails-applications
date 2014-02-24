@@ -7,7 +7,7 @@
 This week I spent setting up a simple monitored set of virtualized Grails application servers. As my monitoring service I chose [Zenoss](http://zenoss.org).
 ## Multi-Machine Setup with Vagrant
 
-In order to simulate a production-like private network I created a [multi-machine configuration](http://docs.vagrantup.com/v2/multi-machine/index.html) for Vagrant comprising 3 machines:
+In order to simulate a production-like [private network](http://docs.vagrantup.com/v2/networking/private_network.html) I created a [multi-machine configuration](http://docs.vagrantup.com/v2/multi-machine/index.html) for Vagrant comprising 3 machines:
 
   - `10.0.0.2` is the installation target for the Zenoss server
   - `10.0.0.3` and `10.0.0.4` are the two to-be-monitored application servers, each configured as a [blue/green deployable](http://andreas-simon.blogspot.de/2014/02/zero-downtime-deployment-for-grails.html) Tomcat for hosting Grails applications
@@ -22,47 +22,52 @@ In order to simulate a production-like private network I created a [multi-machin
 ## Installing the Zenoss server
 
 All the machines are provisioned with Chef.
+For the server, there is a dedicated role in [`roles/zenoss_server.rb`](#code_block-zenoss_server).
+Besides filling the run list with the `zenoss::server` recipe, it configures various attributes for Java and the Zenoss installation.
+
 <div class="code_block">
 <div class="code_header">Vagrantfile</div>
 <%= `cat Vagrantfile | ./extract_region.rb provisioning-zenoss | grep --invert-match "region" | pygmentize -l ruby -f html` %>
 </div>
 
-<div class="code_block">
+<div id='code_block-zenoss_server' class="code_block">
 <div class="code_header">roles/zenoss_server.rb</div>
 <%= `cat roles/zenoss_server.rb | pygmentize -l ruby -f html` %>
 </div>
 
 ## Installing the Application Servers
+
+In order to prepare an application server for monitoring, you have to install the [SNMP](http://en.wikipedia.org/wiki/SNMP) daemon.
+The _Simple Network Management Protocol_ provides insights into various system parameters like CPU utilization, disk usage, RAM statistics.
+I bundled my common run list and attributes in [`roles/monitored.rb`](#code_block-monitored)
+
 <div class="code_block">
 <div class="code_header">Vagrantfile</div>
 <%= `cat Vagrantfile | ./extract_region.rb provisioning-grails | grep --invert-match "region" | pygmentize -l ruby -f html` %>
 </div>
 
-<div class="code_block">
+<div id="code_block-monitored" class="code_block">
 <div class="code_header">roles/monitored.rb</div>
 <%= `cat roles/monitored.rb | pygmentize -l ruby -f html` %>
 </div>
-SNMP daemon
 
-http://docs.vagrantup.com/v2/networking/private_network.html
+## Signing up the Application Servers for Monitoring
 
-tunneling to the Zenoss Web UI
+Now we must acquaint the Application Servers with Zenoss.
+As a first step, I did this manually via the Zenoss Web UI.
+The Web UI is only reachable through the server's loopback interface.
+To make it accessible from my browser, I tunneled HTTP traffic to the loopback device via SSH:
 
 <div class="code_block">
 <div class="code_header">Terminal</div>
-<div class="highlight">
-<pre>
-ssh -p 2222 -o "UserKnownHostsFile /dev/null" -o "StrictHostKeyChecking no" -N -L 8080:127.0.0.1:8080 root@localhost
-</pre>
-</div>
+<%= `cat tunnel-to-zenoss-gui | ./extract_region.rb tunnel-to-zenoss | pygmentize -l ruby -f html` %>
 </div>
 
-## Adding a device (client)
+Now I can access the UI from [localhost:8080](http://localhost:8080).
 
-modelling
-
-monitoring
-
-http://wiki.zenoss.org/Add_a_Device http://wiki.zenoss.org/Prepare_Remote_Device
 </body>
 </html>
+
+<!--
+  vim:ft=markdown
+-->
