@@ -48,6 +48,15 @@ http://docs.vagrantup.com/v2/networking/private_network.html
 
 tunneling to the Zenoss Web UI
 
+<div class="code_block">
+<div class="code_header">Terminal</div>
+<div class="highlight">
+<pre>
+ssh -p 2222 -o "UserKnownHostsFile /dev/null" -o "StrictHostKeyChecking no" -N -L 8080:127.0.0.1:8080 root@localhost
+</pre>
+</div>
+</div>
+
 ## Adding a device (client)
 
 modelling
