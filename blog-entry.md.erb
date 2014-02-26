@@ -65,6 +65,30 @@ To make it accessible from my browser, I tunneled HTTP traffic to the loopback d
 
 Now I can access the UI from [localhost:8080](http://localhost:8080).
 
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/1-zenoss-login.scaled.png" />
+
+Logging in with the credentials from `roles/zenoss_server.rb`, we can access the dashboard:
+
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/2-zenoss-dashboard.scaled.png" />
+
+Switching over to the `Infrastructure` tab, we can `Add Multiple Devices`:
+
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/3-zenoss-devices.scaled.png" />
+
+We input the IP addresses of our two virtual app servers, `10.0.0.3` and `10.0.0.4`, and keep the default value for the device type, Linux Server (SNMP).
+
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/4-zenoss-add-devices.scaled.png" />
+
+Now, Zenoss adds these two nodes to its server pool in the background:
+
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/5-zenoss-running-jobs.scaled.png" />
+
+Having finished this, Zenoss starts recording events and measurements of the nodes. This is an example from a simple load scenario of a Grails application on node `grails2`, `10.0.0.4`
+
+<img src="https://raw.github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications/master/6-zenoss-graphs.scaled.png" />
+
+Now you are prepared for further exploration of the server performance jungle.
+All my sources are available from [GitHub](https://github.com/andreassimon/blog-zenoss-for-monitoring-grails-applications).
 </body>
 </html>
 
